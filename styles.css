@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+main {
+  font-family: Lato;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    "i t t t"
+    "i t t t"
+    "i t t t";
+}
+
+h1 {
+  border-bottom: 2px solid;
+  margin-bottom: 0;
+  width: 327px;
+  margin-left: -15px;
+  padding: 10px 10px 10px 10px;
+}
+
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 24vw;
+  overflow: auto;
+  background: rgb(48, 105, 152);
+  border-right: 2px solid;
+}
+
+#header-list {
+  list-style-type: none;
+}
+
+#navbar a {
+  color: #000;
+  display: block;
+  padding: 10px 10px 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  border-bottom: 2px solid;
+  width: 328px;
+  margin-left: -56px;
+  background: rgba(255, 212, 59, 1);
+}
+
+a:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#container {
+  grid-area: t;
+  margin-top: 10px;
+}
+
+p {
+  text-align: justify;
+}
+
+code {
+  padding: 5px 10px 5px 10px;
+  background: rgb(255, 212, 59, 0.6);
+  border: 1px rgb(255, 212, 59) solid;
+}
+
+#stub {
+  padding: 5px 2px 2px 2px;
+  border: 0px;
+  background: white;
+}
+
+img {
+  width: 100%;
+}

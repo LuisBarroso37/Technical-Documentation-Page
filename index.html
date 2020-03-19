@@ -1,0 +1,105 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<main id="main-doc" class="container-fluid">
+    <nav id="navbar" class="container-fluid">
+      <header class="title">
+        <h1>Using Python for Windows</h1>
+      </header>
+      <ul id="header-list">
+        <li><a class="nav-link" href="#Installation_Steps">Installation Steps</a></li>
+        <li><a class="nav-link" href="#Removing_the_MAX_PATH_Limitation">Removing the MAX_PATH Limitation</a></li>
+        <li><a class="nav-link" href="#Installing_Without_UI">Installing Without UI</a></li>
+        <li><a class="nav-link" href="#Installing_Without_Downloading">Installing Without Downloading</a></li>
+        <li><a class="nav-link" href="#Modifying_an_install">Modifying an install</a></li>
+        <li><a class="nav-link" href="#Reference">Reference</a></li>
+      </ul>
+    </nav>
+    
+    <div id="container" class="container-fluid">
+      <section class="main-section" id="Installation_Steps">
+        <header>
+          <h2>Installation Steps</h2>
+        </header>
+        <p>This document aims to give an overview of Windows-specific behaviour you should know about when using Python on Microsoft Windows.</p>
+        <p>Unlike most Unix systems and services, Windows does not include a system supported installation of Python. To make Python available, the CPython team has compiled Windows installers (MSI packages) with every release for many years. These installers are primarily intended to add a per-user installation of Python, with the core interpreter and library being used by a single user. The installer is also able to install for all users of a single machine, and a separate ZIP file is available for application-local distributions.</p>
+        <p>As specified in <code id="stub">PEP 11</code>, a Python release only supports a Windows platform while Microsoft considers the platform under extended support. This means that Python 3.8 supports Windows Vista and newer. If you require Windows XP support then please install Python 3.4.</p>
+        <p>There are a number of different installers available for Windows, each with certain benefits and downsides.</p>
+        <p>The full installer contains all components and is the best option for developers using Python for any kind of project.</p>
+        <p>The Microsoft Store package is a simple installation of Python that is suitable for running scripts and packages, and using IDLE or other development environments. It requires Windows 10, but can be safely installed without corrupting other programs. It also provides many convenient commands for launching Python and its tools.</p>
+        <p>The nuget.org packages are lightweight installations intended for continuous integration systems. It can be used to build Python packages or run scripts, but is not updateable and has no user interface tools.</p>
+        <p>The embeddable package is a minimal package of Python suitable for embedding into a larger application.</p>
+      </section>
+      <section class="main-section" id="Removing_the_MAX_PATH_Limitation">
+        <header>
+          <h2>Removing the MAX_PATH Limitation</h2>
+        </header>
+        <p>Four Python 3.8 installers are available for download - two each for the 32-bit and 64-bit versions of the interpreter. The web installer is a small initial download, and it will automatically download the required components as necessary. The offline installer includes the components necessary for a default installation and only requires an internet connection for optional features. See Installing Without Downloading for other ways to avoid downloading during installation.</p>
+        <p>After starting the installer, one of two options may be selected:</p>
+        <img class="img-responsive" src="https://docs.python.org/3/_images/win_installer.png">
+        <p>If you select “Install Now”:</p>
+          <ul>
+            <li>You will not need to be an administrator (unless a system update for the <code id="stub">C Runtime Library</code> is required or you install the Python Launcher for Windows for all users)</li>
+            <li>Python will be installed into your user directory</li>
+            <li>The Python Launcher for Windows will be installed according to the option at the bottom of the first page</li>
+            <li>The standard library, test suite, launcher and pip will be installed</li>
+            <li>If selected, the install directory will be added to your PATH</li>
+            <li>Shortcuts will only be visible for the current user</li>
+          </ul>
+        <p>Selecting “Customize installation” will allow you to select the features to install, the installation location and other options or post-install actions. To install debugging symbols or binaries, you will need to use this option.</p>
+        <p>To perform an all-users installation, you should select “Customize installation”. In this case:</p>
+          <ul>
+            <li>You may be required to provide administrative credentials or approval</li>
+            <li>Python will be installed into the Program Files directory</li>
+            <li>The Python Launcher for Windows will be installed into the Windows directory</li>
+            <li>Optional features may be selected during installation</li>
+            <li>The standard library can be pre-compiled to bytecode</li>
+            <li>If selected, the install directory will be added to the system PATH</li>
+            <li>Shortcuts are available for all users</li>
+          </ul>
+      </section>
+      <section class="main-section" id="Installing_Without_UI">
+        <header>
+          <h2>Installing Without UI</h2>
+        </header>
+        <p>Windows historically has limited path lengths to 260 characters. This meant that paths longer than this would not resolve and errors would result.</p>
+        <p>In the latest versions of Windows, this limitation can be expanded to approximately 32,000 characters. Your administrator will need to activate the “Enable Win32 long paths” group policy, or set the registry value <code> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem@LongPathsEnabled</code> to 1.</p>
+        <p>This allows the open() function, the os module and most other path functionality to accept and return paths longer than 260 characters when using strings. (Use of bytes as paths is deprecated on Windows, and this feature is not available when using bytes.)</p>
+        <p>After changing the above option, no further configuration is required.</p>
+        <p>Changed in version 3.6: Support for long paths was enabled in Python.</p>
+      </section>
+      <section class="main-section" id="Installing_Without_Downloading">
+        <header>
+          <h2>Installing Without Downloading</h2>
+        </header>
+        <p>All of the options available in the installer UI can also be specified from the command line, allowing scripted installers to replicate an installation on many machines without user interaction. These options may also be set without suppressing the UI in order to change some of the defaults.</p>
+        <p>To completely hide the installer UI and install Python silently, pass the /quiet option. To skip past the user interaction but still display progress and errors, pass the /passive option. The /uninstall option may be passed to immediately begin removing Python - no prompt will be displayed.</p>
+        <p>All other options are passed as name=value, where the value is usually 0 to disable a feature, 1 to enable a feature, or a path.</p>
+        <p>For example, to silently install a default, system-wide Python installation, you could use the following command (from an elevated command prompt):</p>
+        <code>python-3.8.0.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0</code>
+        <p>To allow users to easily install a personal copy of Python without the test suite, you could provide a shortcut with the following command. This will display a simplified initial page and disallow customization:</p>
+        <code>python-3.8.0.exe InstallAllUsers=0 Include_launcher=0 Include_test=0
+      SimpleInstall=1 SimpleInstallDescription="Just for me, no test suite."</code>
+        <p>(Note that omitting the launcher also omits file associations, and is only recommended for per-user installs when there is also a system-wide installation that included the launcher.)</p>
+        <p>The options listed above can also be provided in a file named unattend.xml alongside the executable. This file specifies a list of options and values. When a value is provided as an attribute, it will be converted to a number if possible. Values provided as element text are always left as strings.</p>
+      </section>
+      <section class="main-section" id="Modifying_an_install">
+        <header>
+          <h2>Modifying an install</h2>
+       </header>
+       <p>Once Python has been installed, you can add or remove features through the Programs and Features tool that is part of Windows. Select the Python entry and choose “Uninstall/Change” to open the installer in maintenance mode.</p>
+       <p>“Modify” allows you to add or remove features by modifying the checkboxes - unchanged checkboxes will not install or remove anything. Some options cannot be changed in this mode, such as the install directory; to modify these, you will need to remove and then reinstall Python completely.</p>
+       <p>“Repair” will verify all the files that should be installed using the current settings and replace any that have been removed or modified.</p>
+       <p>“Uninstall” will remove Python entirely, with the exception of the Python Launcher for Windows, which has its own entry in Programs and Features.</p>
+      </section>
+      <section class="main-section" id="Reference">
+        <header>
+          <h2>Reference</h2>
+       </header>
+        <p>All the documentation in this page is taken from <a id="website" target="_blank" href="https://docs.python.org/3/using/windows.html">Python&apos;s official website</a></p>
+      </section>
+    </div>
+  </main>
